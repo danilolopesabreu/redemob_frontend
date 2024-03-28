@@ -1,0 +1,47 @@
+<h1>Acompanhe Sua Solicitação</h1>
+
+<label>Município:</label>
+<label>{{ descricaoMunicipio(cliente.municipio).nome }}</label>
+<br>
+<label for="nomeCompletoTitular">Nome Completo:</label>
+<label>{{ cliente.nomeCompletoTitular }}</label>
+<br>
+<label for="dataNascimento">Data de Nascimento:</label>
+<label>{{ cliente.dataNascimento }}</label>
+<br>
+<label for="cpf">CPF:</label>
+<label>{{ cliente.cpf }}</label>
+<br>
+<label for="nomeCompletoMaeTitular">Nome Completo da Mãe:</label>
+<label>{{ cliente.nomeCompletoMaeTitular }}</label>
+<br>
+
+<p></p>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Data Solicitação</th>
+            <th>Data Avaliação</th>
+            <th>Situação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (solicitacao of cliente.solicitacoes; track solicitacao) {
+            <tr>
+                <td>{{ solicitacao.dataSolicitacao }}</td>
+                <td> 
+                    @if(solicitacao.dataAvaliacao === null){ <label>Aguardando</label>}
+                    @if(solicitacao.dataAvaliacao !== null){ <label>{{ solicitacao.dataAvaliacao }}</label>}
+                </td>
+                <td>@if(solicitacao.aprovado === null){ <label>Solicitado</label>}
+                    @if(solicitacao.aprovado === false){ <label>Negado</label>}
+                    @if(solicitacao.aprovado === true){ <label>Aprovado</label>}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h3>{{ mensagem }}</h3>
+<p>
+    <button (click)="novaSolicitacao()">Nova Solicitação</button>
+</p>

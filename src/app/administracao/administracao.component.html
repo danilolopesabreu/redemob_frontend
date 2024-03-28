@@ -1,0 +1,34 @@
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Nome Titular</th>
+            <th>Data Nascimento</th>
+            <th>CPF</th>
+            <th>Municipio</th>
+            <th>Mãe</th>
+            <th>Foto Rosto</th>
+            <th>Foto Identidade</th>
+            <th>Foto Comp. Endereço</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (cliente of clientes; track cliente) {
+            <tr>
+                <td>{{ cliente.nomeCompletoTitular }}</td>
+                <td>{{ cliente.dataNascimento }}</td>
+                <td>{{ cliente.cpf }}</td>
+                <td>{{ descricaoMunicipio(cliente.municipio).nome }}</td>
+                <td>{{ cliente.nomeCompletoMaeTitular }}</td>
+                <td> <button (click)="baixarFotoRosto(cliente)">Download</button> </td>
+                <td> <button (click)="baixarFotoIdentidade(cliente)">Download</button> </td>
+                <td> <button (click)="baixarFotoCompResidencia(cliente)">Download</button> </td>
+                <td>
+                    <button (click)="aprovar(cliente)">Aprovar</button>
+                    <button (click)="reprovar(cliente)">Reprovar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

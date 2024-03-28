@@ -1,0 +1,5 @@
+.mainmenu {
+    display: flex;
+    gap: 40px;
+    padding-bottom: 20px;
+}

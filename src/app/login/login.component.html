@@ -1,0 +1,41 @@
+<div class="register-form" style="width: 600px;">
+<h1>Login</h1>
+    <form [formGroup]="loginForm" (submit)="login()">
+          
+        <div class="form-group">
+            <label for="cpf">CPF</label>
+            <input id="cpf" type="text" 
+            formControlName="cpf" 
+            class="form-control"
+            mask="000.000.000-00"
+            inputmode="numeric"
+            [ngClass]="{ 'is-invalid': submitted && loginFormControl['cpf'].errors }"/>
+            @if (submitted && loginFormControl['cpf'].errors) {
+            <div class="invalid-feedback">
+                @if (loginFormControl['cpf'].errors['required']) {
+                <div>CPF é Obrigatório</div>
+                }
+            </div>
+            }
+        </div>
+        
+        <div class="form-group">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" 
+            formControlName="senha" 
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && loginFormControl['senha'].errors }"/>
+            @if (submitted && loginFormControl['senha'].errors) {
+            <div class="invalid-feedback">
+                @if (loginFormControl['senha'].errors['required']) {
+                <div>Senha é Obrigatória</div>
+                }
+            </div>
+            }
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Acessar</button>
+        </div>
+    </form>
+</div>

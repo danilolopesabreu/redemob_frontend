@@ -1,0 +1,23 @@
+export const municipios = [
+   { id:1 ,nome: "Goiânia"},
+   { id:2 ,nome: "Abadia de Goiás"},
+   { id:3 ,nome: "Aparecida de Goiânia"},
+   { id:4 ,nome: "Aragoiânia"},
+   { id:5 ,nome: "Bela Vista de Goiás"},
+   { id:6 ,nome: "Bonfinópolis"},
+   { id:7 ,nome: "Brazabrantes"},
+   { id:8 ,nome: "Caldazinha"},
+   { id:9 ,nome: "Caturaí"},
+   { id:10 ,nome: "Goianápolis"},
+   { id:11 ,nome: "Goianira"},
+   { id:12 ,nome: "Guapó"},
+   { id:13 ,nome: "Hidrolândia"},
+   { id:14 ,nome: "Inhumas"},
+   { id:15 ,nome: "Nerópolis"},
+   { id:16 ,nome: "Nova Veneza"},
+   { id:17 ,nome: "Santa Bárbara de Goiás"},
+   { id:18 ,nome: "Santo Antônio de Goiás"},
+   { id:19 ,nome: "Senador Canedo"},
+   { id:20 ,nome: "Terezópolis de Goiás"},
+   { id:21 ,nome: "Trindade"}
+];

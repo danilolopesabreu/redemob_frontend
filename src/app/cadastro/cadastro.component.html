@@ -1,0 +1,168 @@
+<div class="register-form" style="width: 600px;">
+    <h1>Solicitação do Cartão</h1>
+    <form [formGroup]="cadastroForm" (submit)="cadastrar()">
+    
+        <div class="form-group">
+            <label for="municipio">Município</label>
+            <select 
+                formControlName="municipio"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['municipio'].errors }">
+                <option *ngFor="let municipio of municipios" [ngValue]="municipio.id">{{municipio.nome}}</option>
+            </select>
+            @if (submitted && cadastroFormControl['municipio'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['municipio'].errors['required']) {
+                <div>Municipio é Obrigatório</div>
+                }
+            </div>
+            }
+        </div>
+        
+        <div class="form-group">
+            <label for="nomeCompletoTitular">Nome Completo</label>
+            <input id="nomeCompletoTitular" type="text" 
+            formControlName="nomeCompletoTitular" 
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['nomeCompletoTitular'].errors }"/>
+            @if (submitted && cadastroFormControl['nomeCompletoTitular'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['nomeCompletoTitular'].errors['required']) {
+                <div>Nome do Titular é Obrigatório</div>
+                }
+            </div>
+            }
+        </div>
+
+        
+        <div class="form-group">
+            <label for="dataNascimento">Data de Nascimento</label>
+            <input id="dataNascimento" type="text" 
+            formControlName="dataNascimento" 
+            mask="d0/M0/0000"
+            inputmode="numeric"
+            [dropSpecialCharacters]="false"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['dataNascimento'].errors }"/>
+            @if (submitted && cadastroFormControl['dataNascimento'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['dataNascimento'].errors['required']) {
+                <div>Data de Nascimento é Obrigatório</div>
+                }
+            </div>
+            }
+
+        </div>
+        
+        <div class="form-group">
+            <label for="cpf">CPF</label>
+            <input id="cpf" type="text" 
+            formControlName="cpf" 
+            class="form-control"
+            mask="000.000.000-00"
+            inputmode="numeric"
+            [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['cpf'].errors }"/>
+            @if (submitted && cadastroFormControl['cpf'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['cpf'].errors['required']) {
+                <div>CPF é Obrigatório</div>
+                }
+            </div>
+            }
+        </div>
+
+
+        <div class="form-group">
+            <label for="nomeCompletoMaeTitular">Nome Completo da Mãe</label>
+            <input id="nomeCompletoMaeTitular" type="text" 
+            formControlName="nomeCompletoMaeTitular" 
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['nomeCompletoMaeTitular'].errors }"/>
+            @if (submitted && cadastroFormControl['nomeCompletoMaeTitular'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['nomeCompletoMaeTitular'].errors['required']) {
+                <div>Nome da Mãe do Titular é Obrigatório</div>
+                }
+            </div>
+            }
+        </div>
+        
+        <div class="form-group">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" 
+            formControlName="senha" 
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['senha'].errors }"/>
+            @if (submitted && cadastroFormControl['senha'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['senha'].errors['required']) {
+                <div>Senha é Obrigatória</div>
+                }
+                
+                @if (cadastroFormControl['senha'].errors['minlength']) {
+                <div>Senha deve ter no minimo 8 caracteres</div>
+                }
+
+                @if (cadastroFormControl['senha'].errors['maxlength']) {
+                <div>Senha não pode ultrapassar 20 caracteres</div>
+                }
+            </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="fotoRosto">Foto do Rosto</label>
+            <input id="fotoRosto" type="file" accept="image/*" #imageInput 
+            (change)="processarImagem($event, 1)" 
+            formControlName="fotoRosto" 
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['fotoRosto'].errors }"/>
+            @if (submitted && cadastroFormControl['fotoRosto'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['fotoRosto'].errors['required']) {
+                <div>Foto do Rosto é Obrigatório</div>
+                }
+            </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="identidade">Foto Identidade</label>
+            <input id="identidade" type="file" accept="image/*" #imageInput 
+            (change)="processarImagem($event, 2)" 
+            formControlName="identidade" 
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['identidade'].errors }"/>
+            @if (submitted && cadastroFormControl['identidade'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['identidade'].errors['required']) {
+                <div>Foto Identidade é Obrigatório</div>
+                }
+            </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="comprovanteResidencia">Foto Comprovante Endereço</label>
+            <input id="comprovanteResidencia" type="file" accept="image/*" #imageInput 
+            (change)="processarImagem($event, 3)" 
+            formControlName="comprovanteResidencia" 
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && cadastroFormControl['comprovanteResidencia'].errors }"/>
+            @if (submitted && cadastroFormControl['comprovanteResidencia'].errors) {
+            <div class="invalid-feedback">
+                @if (cadastroFormControl['comprovanteResidencia'].errors['required']) {
+                <div>Foto Comprovante Endereço é Obrigatório</div>
+                }
+            </div>
+            }
+        </div>
+        
+        <br>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Solicitar</button>
+        </div>
+    
+    </form>
+</div>
