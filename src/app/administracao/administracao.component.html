@@ -1,9 +1,9 @@
-@if(!clientes || clientes.length === 0){
+@if(clientes !== null && clientes.length === 0){
 <h3>Não existem solicitações de Cartões.</h3>
 }
 
 @if(clientes && clientes.length > 0){
-<table border="1">
+<table border="1" style="width: 950px;">
     <thead>
         <tr>
             <th>Nome Titular</th>
@@ -25,9 +25,9 @@
                 <td>{{ cliente.cpf }}</td>
                 <td>{{ descricaoMunicipio(cliente.municipio).nome }}</td>
                 <td>{{ cliente.nomeCompletoMaeTitular }}</td>
-                <td> <button (click)="baixarFotoRosto(cliente)">Download</button> </td>
-                <td> <button (click)="baixarFotoIdentidade(cliente)">Download</button> </td>
-                <td> <button (click)="baixarFotoCompResidencia(cliente)">Download</button> </td>
+                <td> <img [src]="transform(cliente.fotoRosto)" width="60px"> </td>
+                <td> <img [src]="transform(cliente.identidade)" width="60px"> </td>
+                <td> <img [src]="transform(cliente.comprovanteResidencia)" width="60px"> </td>
                 <td>
                     <button (click)="aprovar(cliente)">Aprovar</button>
                     <button (click)="reprovar(cliente)">Reprovar</button>

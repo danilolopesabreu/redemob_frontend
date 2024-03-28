@@ -3,6 +3,7 @@ import { AcompanhamentoService } from '../services/acompanhamento/acompanhamento
 import { Cliente } from '../modelo/cliente';
 import { saveAs } from 'file-saver';
 import { municipios } from '../util/municipios';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-administracao',
@@ -11,9 +12,11 @@ import { municipios } from '../util/municipios';
 })
 export class AdministracaoComponent {
   
-  clientes:Array<Cliente>;
+  clientes:Array<Cliente> = null;
 
-  constructor(private acompanhamentoService:AcompanhamentoService){
+  constructor(
+    private acompanhamentoService:AcompanhamentoService,
+    private sanitizer:DomSanitizer){
   }
 
   ngOnInit(): void {
@@ -68,13 +71,13 @@ export class AdministracaoComponent {
   }
 
   gerarDownload(base64:any, nomeArquivo:string){
-    let blob = new Blob([base64], {type: "data:image/jpg;base64,"});
+    let blob = new Blob(["data:image/jpg;base64, "+base64], {type: "image/png"});
     saveAs(blob, nomeArquivo+".jpg");
-    // let link = document.createElement("a");
-    // link.href = URL.createObjectURL(blob);
-    // link.download = nomeArquivo+".jpg";
-    // link.click();
-    // link.remove();
+
+  }
+
+  transform(base64Image:any){
+    return this.sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, "+base64Image);
   }
   
   descricaoMunicipio(idMunicipio:number){
