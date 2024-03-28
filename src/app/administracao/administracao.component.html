@@ -1,4 +1,8 @@
+@if(!clientes || clientes.length === 0){
+<h3>Não existem solicitações.</h3>
+}
 
+@if(clientes && clientes.length > 0){
 <table border="1">
     <thead>
         <tr>
@@ -32,3 +36,4 @@
         }
     </tbody>
 </table>
+}
