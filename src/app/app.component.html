@@ -9,7 +9,10 @@
         
         <a class="btn btn-info" routerLink="/login">Login</a>
         
-        <a class="btn btn-warning" routerLink="/sair">Sair</a>
+        @if(logado){
+        <a class="btn btn-warning" (click)="sair()">Sair</a>
+        }
+        
     </div>
     
     <router-outlet />

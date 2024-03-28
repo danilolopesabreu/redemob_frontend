@@ -7,6 +7,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { Router } from '@angular/router';
 import moment from 'moment';
 import { LocalstorageService } from '../services/localstorage/localstorage.service';
+import { CommonService } from '../services/login/commonService';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -32,7 +33,8 @@ export class CadastroComponent implements OnInit {
     private fb: FormBuilder, 
     private cadastroService:CadastroService,
     private localstorageService:LocalstorageService,
-    private router: Router){
+    private router: Router,
+    private commonService:CommonService){
   }
 
   ngOnInit(): void {
@@ -65,6 +67,7 @@ export class CadastroComponent implements OnInit {
         this.cadastroService.cadastrarCliente(novoCliente).subscribe(
           cliente => {
             this.localstorageService.setItem("clienteLogado", JSON.stringify(cliente));
+            this.commonService.emitEvent('login');
             this.router.navigate(['/acompanhamento']); 
           },
           error => {

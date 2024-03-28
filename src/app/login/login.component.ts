@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Login } from '../modelo/login';
 import { LocalstorageService } from '../services/localstorage/localstorage.service';
 import { Router } from '@angular/router';
+import { CommonService } from '../services/login/commonService';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private loginService:LoginService,
     private localstorageService:LocalstorageService,
-    private router: Router
+    private router: Router,
+    private commonService: CommonService
     ){
 
     this.loginForm = this.fb.group({
@@ -40,6 +42,7 @@ export class LoginComponent {
       cliente => {
         if(cliente !== null){
           this.localstorageService.setItem("clienteLogado", JSON.stringify(cliente));
+          this.commonService.emitEvent('login');
           if(cliente.cpf !== '99999999999'){
             this.router.navigate(['/acompanhamento']);
           }else{
@@ -47,6 +50,9 @@ export class LoginComponent {
           }
         }
         
+      }, 
+      error => {
+        alert(error.error.message);
       }
     );
   }
