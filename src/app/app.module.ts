@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NaoautorizadoComponent } from './naoautorizado/naoautorizado.component';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { SairComponent } from './sair/sair.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { SairComponent } from './sair/sair.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [provideNgxMask({})],
   bootstrap: [AppComponent]

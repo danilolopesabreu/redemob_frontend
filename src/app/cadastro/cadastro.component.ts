@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import moment from 'moment';
 import { LocalstorageService } from '../services/localstorage/localstorage.service';
 import { CommonService } from '../services/login/commonService';
+import { MensagemService } from '../services/mensagem/mensagem.service';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -34,7 +35,8 @@ export class CadastroComponent implements OnInit {
     private cadastroService:CadastroService,
     private localstorageService:LocalstorageService,
     private router: Router,
-    private commonService:CommonService){
+    private commonService:CommonService,
+    private mensagemService:MensagemService){
   }
 
   ngOnInit(): void {
@@ -71,12 +73,12 @@ export class CadastroComponent implements OnInit {
             this.router.navigate(['/acompanhamento']); 
           },
           error => {
-            alert(error.error.message);
+            this.mensagemService.alerta(error.error.message);
           }
         );
 
       }else{
-        alert("Solicitacao disponivel apenas para maiores de 18 anos");
+        this.mensagemService.alerta("Solicitacao disponivel apenas para maiores de 18 anos");
       }
       
 

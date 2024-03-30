@@ -5,6 +5,8 @@ import { Login } from '../modelo/login';
 import { LocalstorageService } from '../services/localstorage/localstorage.service';
 import { Router } from '@angular/router';
 import { CommonService } from '../services/login/commonService';
+import { ToastrService } from 'ngx-toastr';
+import { MensagemService } from '../services/mensagem/mensagem.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,8 @@ export class LoginComponent {
     private loginService:LoginService,
     private localstorageService:LocalstorageService,
     private router: Router,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private mensagemService: MensagemService
     ){
 
     this.loginForm = this.fb.group({
@@ -38,22 +41,24 @@ export class LoginComponent {
   login(){
     this.submitted = true;
     let novoLogin = new Login(this.loginForm.value);
-    this.loginService.login(novoLogin).subscribe(
-      cliente => {
-        if(cliente !== null){
-          this.localstorageService.setItem("clienteLogado", JSON.stringify(cliente));
-          this.commonService.emitEvent('login');
-          if(cliente.cpf !== '99999999999'){
-            this.router.navigate(['/acompanhamento']);
-          }else{
-            this.router.navigate(['/administracao']);
+    if(this.loginForm.valid){
+        this.loginService.login(novoLogin).subscribe(
+          cliente => {
+            if(cliente !== null){
+              this.localstorageService.setItem("clienteLogado", JSON.stringify(cliente));
+              this.commonService.emitEvent('login');
+              if(cliente.cpf !== '99999999999'){
+                this.router.navigate(['/acompanhamento']);
+              }else{
+                this.router.navigate(['/administracao']);
+              }
+            }
+            
+          }, 
+          error => {
+            this.mensagemService.alerta(error.error.message);
           }
-        }
-        
-      }, 
-      error => {
-        alert(error.error.message);
+        );
       }
-    );
-  }
+    }
 }
