@@ -106,6 +106,10 @@
                 @if (cadastroFormControl['senha'].errors['maxlength']) {
                 <div>Senha não pode ultrapassar 20 caracteres</div>
                 }
+
+                @if (cadastroFormControl['senha'].errors['passwordStrength']) {
+                <div>Senha deve ter caracteres maiusculos, minusculos e numeros.</div>
+                }
             </div>
             }
         </div>

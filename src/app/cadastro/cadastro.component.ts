@@ -9,6 +9,7 @@ import moment from 'moment';
 import { LocalstorageService } from '../services/localstorage/localstorage.service';
 import { CommonService } from '../services/login/commonService';
 import { MensagemService } from '../services/mensagem/mensagem.service';
+import { passwordStrengthValidator } from '../validators/passwordStrengthValidator';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -49,7 +50,11 @@ export class CadastroComponent implements OnInit {
       fotoRosto: ["", Validators.required],
       identidade: ["", Validators.required],
       comprovanteResidencia: ["", Validators.required],
-      senha: ["", [Validators.required, Validators.maxLength(20), Validators.minLength(8)] ],
+      senha: ["", [
+          Validators.required
+          , Validators.maxLength(20)
+          , Validators.minLength(8)
+          , passwordStrengthValidator()] ],
     });
 
   }
