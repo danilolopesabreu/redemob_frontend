@@ -49,6 +49,10 @@
                 @if (cadastroFormControl['dataNascimento'].errors['required']) {
                 <div>Data de Nascimento é Obrigatório</div>
                 }
+
+                @if (cadastroFormControl['dataNascimento'].errors['maiorIdade']) {
+                <div>Solicitação permitida apenas para maiores de 18 anos</div>
+                }
             </div>
             }
 

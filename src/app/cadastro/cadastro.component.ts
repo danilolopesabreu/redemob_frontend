@@ -10,6 +10,7 @@ import { LocalstorageService } from '../services/localstorage/localstorage.servi
 import { CommonService } from '../services/login/commonService';
 import { MensagemService } from '../services/mensagem/mensagem.service';
 import { passwordStrengthValidator } from '../validators/passwordStrengthValidator';
+import { maiorIdadeValidator } from '../validators/maiorIdadeValidator';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -43,7 +44,10 @@ export class CadastroComponent implements OnInit {
   ngOnInit(): void {
     this.cadastroForm = this.fb.group({
       nomeCompletoTitular: ["", Validators.required],
-      dataNascimento: ["", Validators.required],
+      dataNascimento: ["", { 
+        validators: [Validators.required, maiorIdadeValidator()],
+        updateOn:  'change'
+      }],
       cpf: ["", Validators.required],
       nomeCompletoMaeTitular: ["", Validators.required],
       municipio: ["", Validators.required],
@@ -51,7 +55,7 @@ export class CadastroComponent implements OnInit {
       identidade: ["", Validators.required],
       comprovanteResidencia: ["", Validators.required],
       senha: ["", [
-          Validators.required
+            Validators.required
           , Validators.maxLength(20)
           , Validators.minLength(8)
           , passwordStrengthValidator()] ],
@@ -64,41 +68,25 @@ export class CadastroComponent implements OnInit {
     if(this.cadastroForm.valid){
 
       let novoCliente = new Cliente(this.cadastroForm.value);
-      
-      if(this.ehMaiorDeIdade(novoCliente.dataNascimento)){
 
-        novoCliente.fotoRosto = this.base64FotoRosto;
-        novoCliente.identidade = this.base64FotoIdentidade;
-        novoCliente.comprovanteResidencia = this.base64FotoComprovanteEndereco;
-  
-        this.cadastroService.cadastrarCliente(novoCliente).subscribe({
-          next: (cliente) => {
-            this.localstorageService.setItem("clienteLogado", JSON.stringify(cliente));
-            this.commonService.emitEvent('login');
-            this.router.navigate(['/acompanhamento']); 
-          },
-          error: (error) => {
-            this.mensagemService.alerta(error.error.message);
-          },
-          complete: () => {}
-        });
+      novoCliente.fotoRosto = this.base64FotoRosto;
+      novoCliente.identidade = this.base64FotoIdentidade;
+      novoCliente.comprovanteResidencia = this.base64FotoComprovanteEndereco;
 
-      }else{
-        this.mensagemService.alerta("Solicitacao disponivel apenas para maiores de 18 anos");
-      }
-      
+      this.cadastroService.cadastrarCliente(novoCliente).subscribe({
+        next: (cliente) => {
+          this.localstorageService.setItem("clienteLogado", JSON.stringify(cliente));
+          this.commonService.emitEvent('login');
+          this.router.navigate(['/acompanhamento']); 
+        },
+        error: (error) => {
+          this.mensagemService.alerta(error.error.message);
+        },
+        complete: () => {}
+      });    
 
     }
 
-  }
-
-  ehMaiorDeIdade(nascimentoString:string){
-    let nascimento = moment(nascimentoString, 'DD/MM/yyyy').toDate();
-    let ageDifMs = Date.now() - nascimento.getTime();
-    let ageDate = new Date(ageDifMs); 
-    let idade = Math.abs(ageDate.getUTCFullYear() - 1970);
-    console.log(idade);
-    return idade >= 18;
   }
 
   get cadastroFormControl() {
