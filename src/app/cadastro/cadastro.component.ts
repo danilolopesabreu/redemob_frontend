@@ -66,16 +66,17 @@ export class CadastroComponent implements OnInit {
         novoCliente.identidade = this.base64FotoIdentidade;
         novoCliente.comprovanteResidencia = this.base64FotoComprovanteEndereco;
   
-        this.cadastroService.cadastrarCliente(novoCliente).subscribe(
-          cliente => {
+        this.cadastroService.cadastrarCliente(novoCliente).subscribe({
+          next: (cliente) => {
             this.localstorageService.setItem("clienteLogado", JSON.stringify(cliente));
             this.commonService.emitEvent('login');
             this.router.navigate(['/acompanhamento']); 
           },
-          error => {
+          error: (error) => {
             this.mensagemService.alerta(error.error.message);
-          }
-        );
+          },
+          complete: () => {}
+        });
 
       }else{
         this.mensagemService.alerta("Solicitacao disponivel apenas para maiores de 18 anos");

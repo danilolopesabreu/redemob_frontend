@@ -42,8 +42,8 @@ export class LoginComponent {
     this.submitted = true;
     let novoLogin = new Login(this.loginForm.value);
     if(this.loginForm.valid){
-        this.loginService.login(novoLogin).subscribe(
-          cliente => {
+        this.loginService.login(novoLogin).subscribe({
+          next: (cliente) => {
             if(cliente !== null){
               this.localstorageService.setItem("clienteLogado", JSON.stringify(cliente));
               this.commonService.emitEvent('login');
@@ -53,12 +53,12 @@ export class LoginComponent {
                 this.router.navigate(['/administracao']);
               }
             }
-            
           }, 
-          error => {
+          error: (error) => {
             this.mensagemService.alerta(error.error.message);
-          }
-        );
+          },
+          complete: () => {}
+        });
       }
     }
 }
