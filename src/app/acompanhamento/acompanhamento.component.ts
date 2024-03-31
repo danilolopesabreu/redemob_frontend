@@ -3,6 +3,7 @@ import { AcompanhamentoService } from '../services/acompanhamento/acompanhamento
 import { LocalstorageService } from '../services/localstorage/localstorage.service';
 import { Cliente } from '../modelo/cliente';
 import { municipios } from '../util/municipios';
+import { MensagemService } from '../services/mensagem/mensagem.service';
 
 @Component({
   selector: 'app-acompanhamento',
@@ -16,7 +17,8 @@ export class AcompanhamentoComponent implements OnInit{
 
   constructor(
     private acompanhamentoService:AcompanhamentoService,
-    private localstorageService:LocalstorageService){
+    private localstorageService:LocalstorageService,
+    private mensagemService:MensagemService){
   }
 
   ngOnInit(): void {
@@ -25,55 +27,16 @@ export class AcompanhamentoComponent implements OnInit{
   }
 
   novaSolicitacao(){
-    if(this.hasSolicitacaoAprovada()){
-      this.mensagem = "Você já possui solicitação aprovada";
-      return;
-    }
-
-    if(this.contarQtdSolicitacaoPendente() >= 1){
-      this.mensagem = "Aguarde atualização da Situação para fazer nova solicitação";
-      return;
-    }
-
-    if(this.contarQtdSolicitacaoRecusada() < 2){
-      this.acompanhamentoService.novaSolicitacao(this.cliente).subscribe(
-        solicitacao => {
-          this.cliente.solicitacoes.push(solicitacao);
-        }
-      );
-    }else{
-      this.mensagem = "O Limite de solicitações recusadas foi alcançado";
-    }
-  }
-
-  contarQtdSolicitacaoRecusada(){
-    let contador = 0;
-    this.cliente.solicitacoes.forEach( (umaSolicitacao) =>{
-        if(umaSolicitacao.aprovado === false){
-            contador++;
-        }
-    });
-    return contador;
-  }
-
-  contarQtdSolicitacaoPendente(){
-    let contador = 0;
-    this.cliente.solicitacoes.forEach( (umaSolicitacao) =>{
-        if(umaSolicitacao.aprovado === null){
-            contador++;
-        }
-    });
-    return contador;
-  }
-
-  hasSolicitacaoAprovada(){
-    let aprovada = false;
-    this.cliente.solicitacoes.forEach( (umaSolicitacao) =>{
-        if(umaSolicitacao.aprovado === true){
-          aprovada = true;
-        }
-    });
-    return aprovada;
+      
+    this.acompanhamentoService.novaSolicitacao(this.cliente).subscribe(
+      solicitacao => {
+        this.cliente.solicitacoes.push(solicitacao);
+      },
+      error => {
+        this.mensagemService.alerta(error.error.message);
+      }
+    );
+    
   }
   
   descricaoMunicipio(idMunicipio:number){
