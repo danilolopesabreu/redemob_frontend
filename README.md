@@ -1,5 +1,5 @@
 # Redemob Frontend
-
+* Versão avaliada está na TAG v1.0.0
 ## Ambiente
 * NodeJs v20.11.1
 * É possivel administrar facilmente versões do NodeJs com o Node Version Manager (nvm)
